@@ -109,22 +109,22 @@ namespace UnityStandardAssets.Characters.FirstPerson
             m_MoveDir.z = desiredMove.z*speed;
 
 
-            if (m_CharacterController.isGrounded)
-            {
-                m_MoveDir.y = -m_StickToGroundForce;
-
-                if (m_Jump)
-                {
-                    m_MoveDir.y = m_JumpSpeed;
-                    PlayJumpSound();
-                    m_Jump = false;
-                    m_Jumping = true;
-                }
-            }
-            else
-            {
-                m_MoveDir += Physics.gravity*m_GravityMultiplier*Time.fixedDeltaTime;
-            }
+//            if (m_CharacterController.isGrounded)
+//            {
+//                m_MoveDir.y = -m_StickToGroundForce;
+//
+//                if (m_Jump)
+//                {
+//                    m_MoveDir.y = m_JumpSpeed;
+//                    PlayJumpSound();
+//                    m_Jump = false;
+//                    m_Jumping = true;
+//                }
+//            }
+//            else
+//            {
+//                m_MoveDir += Physics.gravity*m_GravityMultiplier*Time.fixedDeltaTime;
+//            }
             m_CollisionFlags = m_CharacterController.Move(m_MoveDir*Time.fixedDeltaTime);
 
             ProgressStepCycle(speed);

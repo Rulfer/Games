@@ -10,6 +10,7 @@ namespace FlowPathfinding
         private Dictionary<Tile, GameObject> obstacles = new Dictionary<Tile, GameObject>();
 
         public Pathfinder pathfinder;
+        public List<GameObject> spawnPoints = new List<GameObject>();
         public GameObject unitHolder;
 
         private int controllGroup = 0;
@@ -18,7 +19,7 @@ namespace FlowPathfinding
         private bool gameHasStarted = false;
 
         private float timer = 0;
-        private float rescanTimer = 1f;
+        private float rescanTimer = 10.0f;
 
         public GameObject enemy;
         bool newEnemy = true;
@@ -41,7 +42,7 @@ namespace FlowPathfinding
                     selectedUnits[2].Add(child.GetComponent<Seeker>());
             }
 
-            for (int i = 0; i < 2; i++)
+            for (int i = 0; i < 1; i++)
             {
                 Spawn();
             }
@@ -95,7 +96,8 @@ namespace FlowPathfinding
             GameObject go = Instantiate(enemy);
             go.transform.parent = unitHolder.transform;
             go.transform.name = "Unit";
-            go.transform.position = unitHolder.transform.position;
+            
+            go.transform.position = spawnPoints[Random.Range(0, spawnPoints.Count)].transform.position;
 
             selectedUnits[0].Add(go.GetComponent<Seeker>());
             newEnemy = !newEnemy;
@@ -104,16 +106,6 @@ namespace FlowPathfinding
             else
                 selectedUnits[2].Add(go.GetComponent<Seeker>());
 
-//            foreach (Transform child in unitHolder.transform)
-//            {
-//                selectedUnits[0].Add(child.GetComponent<Seeker>());
-//
-//                aSwitch = !aSwitch;
-//                if(aSwitch)
-//                    selectedUnits[1].Add(child.GetComponent<Seeker>());
-//                else
-//                    selectedUnits[2].Add(child.GetComponent<Seeker>());
-//            }
 
         }
 
@@ -124,52 +116,55 @@ namespace FlowPathfinding
 
             else
             {
-                //Spawn();
+                Spawn();
                 timer = 0;
                 Tile tile = pathfinder.worldData.tileManager.GetTileFromPosition(pathfinder.GetMousePosition());
-                Debug.Log(tile);
                 if (tile != null)
                 {
                     pathfinder.FindPath(tile, selectedUnits[controllGroup]);
-
-                    if (Input.GetMouseButton(1) && Input.GetKey("b"))
-                    {
-                        if (!tile.blocked)
-                        {
-                            GameObject blockade = Resources.Load("Prefab/Obstacle") as GameObject;
-                            GameObject b = Instantiate(blockade, pathfinder.worldData.tileManager.GetTileWorldPosition(tile, pathfinder.worldData.worldAreas[tile.worldAreaIndex]) + new Vector3(0, 0.1f, 0), Quaternion.identity) as GameObject;
-                            b.transform.parent = transform;
-                            obstacles.Add(tile, b);
-                        }
-
-                        pathfinder.worldData.worldManager.BlockTile(tile);
-                    }
-
-
-                    if (Input.GetMouseButton(1) && Input.GetKey("n"))
-                    {
-                        if (tile.blocked)
-                        {
-                            Destroy(obstacles[tile]);
-                            obstacles.Remove(tile);
-                        }
-
-                        pathfinder.worldData.worldManager.UnBlockTile(tile);
-                    }
-
-                    if (Input.GetMouseButton(1) && Input.GetKey("c"))
-                        pathfinder.worldData.worldManager.SetTileCost(tile, 10);
-
-
-                    if (Input.GetKeyDown("0"))
-                        controllGroup = 0;
-
-                    if (Input.GetKeyDown("1"))
-                        controllGroup = 1;
-
-                    if (Input.GetKeyDown("2"))
-                        controllGroup = 2;
                 }
+//                Tile tile = pathfinder.worldData.tileManager.GetTileFromPosition(pathfinder.GetMousePosition());
+//                if (tile != null)
+//                {
+//                    pathfinder.FindPath(tile, selectedUnits[controllGroup]);
+
+//                    if (Input.GetMouseButton(1) && Input.GetKey("b"))
+//                    {
+//                        if (!tile.blocked)
+//                        {
+//                            GameObject blockade = Resources.Load("Prefab/Obstacle") as GameObject;
+//                            GameObject b = Instantiate(blockade, pathfinder.worldData.tileManager.GetTileWorldPosition(tile, pathfinder.worldData.worldAreas[tile.worldAreaIndex]) + new Vector3(0, 0.1f, 0), Quaternion.identity) as GameObject;
+//                            b.transform.parent = transform;
+//                            obstacles.Add(tile, b);
+//                        }
+//
+//                        pathfinder.worldData.worldManager.BlockTile(tile);
+//                    }
+
+
+//                    if (Input.GetMouseButton(1) && Input.GetKey("n"))
+//                    {
+//                        if (tile.blocked)
+//                        {
+//                            Destroy(obstacles[tile]);
+//                            obstacles.Remove(tile);
+//                        }
+//
+//                        pathfinder.worldData.worldManager.UnBlockTile(tile);
+//                    }
+//
+//                    if (Input.GetMouseButton(1) && Input.GetKey("c"))
+//                        pathfinder.worldData.worldManager.SetTileCost(tile, 10);
+//
+//
+//                    if (Input.GetKeyDown("0"))
+//                        controllGroup = 0;
+//
+//                    if (Input.GetKeyDown("1"))
+//                        controllGroup = 1;
+//
+//                    if (Input.GetKeyDown("2"))
+//                        controllGroup = 2;
 
             }
         }
