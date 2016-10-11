@@ -94,7 +94,7 @@ namespace FlowPathfinding
             GameObject go = Instantiate(enemy);
             go.transform.parent = unitHolder.transform;
             go.transform.name = "Unit";
-            go.transform.position = new Vector3(0, 0.65f, -30.77f);
+            go.transform.position = unitHolder.transform.position;
 
             selectedUnits[0].Add(go.GetComponent<Seeker>());
             newEnemy = !newEnemy;
