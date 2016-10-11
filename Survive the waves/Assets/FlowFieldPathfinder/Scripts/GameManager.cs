@@ -18,8 +18,10 @@ namespace FlowPathfinding
 
         private bool gameHasStarted = false;
 
-        private float timer = 0;
-        private float rescanTimer = 10.0f;
+        private float spawnTimer = 0;
+        private float spawnInterval = 10.0f;
+        private float tileTimer = 0f;
+        private float tileInterval = 0.5f;
 
         public GameObject enemy;
         bool newEnemy = true;
@@ -111,61 +113,24 @@ namespace FlowPathfinding
 
         private void Inputs()
         {
-            if (timer < rescanTimer)
-                timer += Time.deltaTime; //Skal egentlig være += her
+            if (spawnTimer < spawnInterval)
+                spawnTimer += Time.deltaTime; //Skal egentlig være += her
 
             else
             {
                 Spawn();
-                timer = 0;
+                spawnTimer = 0;
+            }
+            if (tileTimer < tileInterval)
+                tileTimer += Time.deltaTime;
+            else
+            {
+                tileTimer = 0;
                 Tile tile = pathfinder.worldData.tileManager.GetTileFromPosition(pathfinder.GetMousePosition());
                 if (tile != null)
                 {
                     pathfinder.FindPath(tile, selectedUnits[controllGroup]);
                 }
-//                Tile tile = pathfinder.worldData.tileManager.GetTileFromPosition(pathfinder.GetMousePosition());
-//                if (tile != null)
-//                {
-//                    pathfinder.FindPath(tile, selectedUnits[controllGroup]);
-
-//                    if (Input.GetMouseButton(1) && Input.GetKey("b"))
-//                    {
-//                        if (!tile.blocked)
-//                        {
-//                            GameObject blockade = Resources.Load("Prefab/Obstacle") as GameObject;
-//                            GameObject b = Instantiate(blockade, pathfinder.worldData.tileManager.GetTileWorldPosition(tile, pathfinder.worldData.worldAreas[tile.worldAreaIndex]) + new Vector3(0, 0.1f, 0), Quaternion.identity) as GameObject;
-//                            b.transform.parent = transform;
-//                            obstacles.Add(tile, b);
-//                        }
-//
-//                        pathfinder.worldData.worldManager.BlockTile(tile);
-//                    }
-
-
-//                    if (Input.GetMouseButton(1) && Input.GetKey("n"))
-//                    {
-//                        if (tile.blocked)
-//                        {
-//                            Destroy(obstacles[tile]);
-//                            obstacles.Remove(tile);
-//                        }
-//
-//                        pathfinder.worldData.worldManager.UnBlockTile(tile);
-//                    }
-//
-//                    if (Input.GetMouseButton(1) && Input.GetKey("c"))
-//                        pathfinder.worldData.worldManager.SetTileCost(tile, 10);
-//
-//
-//                    if (Input.GetKeyDown("0"))
-//                        controllGroup = 0;
-//
-//                    if (Input.GetKeyDown("1"))
-//                        controllGroup = 1;
-//
-//                    if (Input.GetKeyDown("2"))
-//                        controllGroup = 2;
-
             }
         }
     }
