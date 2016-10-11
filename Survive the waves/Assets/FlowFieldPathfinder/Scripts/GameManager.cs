@@ -80,6 +80,7 @@ namespace FlowPathfinding
                 selectedUnits[1].Remove(go.GetComponent<Seeker>());
             else
                 selectedUnits[2].Remove(go.GetComponent<Seeker>());
+            Debug.Log(go.transform.name);
             go.transform.parent = null;
             go.GetComponent<Unit>().enabled = false;
             go.GetComponent<CharacterController>().enabled = false;

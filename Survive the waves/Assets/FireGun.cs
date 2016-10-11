@@ -26,13 +26,15 @@ public class FireGun : MonoBehaviour
                     GameManager.manager.DeleteEnemy(hit.transform.gameObject.GetComponent<RemoveBodyparts>().myParent);
 
                 }
-                if (hit.transform.tag == "Enemy")
+                if (hit.transform.tag == "Enemy" || hit.transform.tag == "Thigh" || hit.transform.tag == "Calf" || hit.transform.tag == "Foot" || hit.transform.tag == "Spine"
+                    || hit.transform.tag == "UpperArm" || hit.transform.tag == "Forearm"  || hit.transform.tag == "Hand")
                 {
+
                     hit.transform.gameObject.GetComponent<RemoveBodyparts>().myParent.transform.GetComponent<EnemyStats>().health -= 20;
                     hit.transform.gameObject.GetComponent<RemoveBodyparts>().RemoveBodypart();
                     if (hit.transform.gameObject.GetComponent<RemoveBodyparts>().myParent.GetComponent<EnemyStats>().health == 0)
                     {
-                        GameManager.manager.DeleteEnemy(hit.transform.gameObject);
+                        GameManager.manager.DeleteEnemy(hit.transform.gameObject.GetComponent<RemoveBodyparts>().myParent);
                     }
                 }
 
