@@ -155,7 +155,6 @@ public class Weapon : MonoBehaviour {
         {
 
             RaycastHit hit;
-            Debug.DrawRay(muzzle.position, (muzzleDirection.position - muzzle.position).normalized, Color.red, Mathf.Infinity);
             if (Physics.Raycast(muzzle.transform.position, (muzzleDirection.position - muzzle.position).normalized, out hit, range))
             {
                 if (hit.transform.tag == "Head")
@@ -183,11 +182,6 @@ public class Weapon : MonoBehaviour {
                 {
                     GameObject cloneImpact = Instantiate(impact, hit.point, Quaternion.LookRotation(hit.normal)) as GameObject;
                     cloneImpact.transform.parent = hit.transform;
-                }
-                if (hit.rigidbody != null)
-                {
-                    hit.rigidbody.AddForceAtPosition(force * (muzzleDirection.position - muzzle.position).normalized, hit.point);
-                    CheckHit(hit.rigidbody);
                 }
                 
             }
@@ -331,22 +325,6 @@ public class Weapon : MonoBehaviour {
             sound.Play();
         }
 
-    }
-
-    void CheckHit(Rigidbody hit)
-    {
-        if (hit.gameObject.layer == LayerMask.NameToLayer("Enemy"))
-        {
-            enemy target = hit.GetComponent<enemy>();
-            target.OnHit(damage);
-        }
-        else if (hit.gameObject.layer == LayerMask.NameToLayer("Hittable"))
-        {
-            hitObject target = hit.GetComponent<hitObject>();
-            target.OnHit(damage);
-        }
-        else
-            return;
     }
 
 

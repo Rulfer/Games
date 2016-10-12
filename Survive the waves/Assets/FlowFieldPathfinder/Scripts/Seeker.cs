@@ -21,7 +21,7 @@ namespace FlowPathfinding
         float cohWeight = 0f;
 
         float maxForce = 4; // maximun magnitude of the (combined) force vector that is applied each tick
-        float maxMoveSpeed = 2; // maximun magnitude of the (combined) velocity vector
+        float maxMoveSpeed = 1.5f; // maximun magnitude of the (combined) velocity vector
         float maxIdleSpeed = 0.8f; // maximun magnitude of the (combined) velocity vector
 
         public static float neighbourRadiusMoving = 2.2f;

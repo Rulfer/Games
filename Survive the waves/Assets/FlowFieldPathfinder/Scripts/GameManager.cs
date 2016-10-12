@@ -47,8 +47,6 @@ namespace FlowPathfinding
                 else
                     selectedUnits[2].Add(child.GetComponent<Seeker>());
             }
-
-            StartGame();
         }
 
         void OnGUI()
@@ -73,7 +71,7 @@ namespace FlowPathfinding
             roundSong.SetActive(true);
             gameHasStarted = true;
 
-            for (int i = 0; i < 1; i++)
+            for (int i = 0; i < 10; i++)
             {
                 Spawn();
             }
@@ -105,6 +103,22 @@ namespace FlowPathfinding
                 else
                     selectedUnits[2].Add(child.GetComponent<Seeker>());
             }
+        }
+
+        public void RemoveEnemyFromSeeking(GameObject go)
+        {
+            selectedUnits[0].Remove(go.GetComponent<Seeker>());
+            if (newEnemy)
+                selectedUnits[1].Remove(go.GetComponent<Seeker>());
+            else
+                selectedUnits[2].Remove(go.GetComponent<Seeker>());
+            
+            go.transform.parent = null;
+            go.GetComponent<Unit>().enabled = false;
+            go.GetComponentInChildren<PlayAnimation>().AttackAnimation();
+            SeekerMovementManager.move.allSeekers.Remove(go.GetComponent<Seeker>());
+
+            ResetUnits();
         }
 
         public void DeleteEnemy(GameObject go)
