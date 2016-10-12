@@ -19,11 +19,15 @@ namespace FlowPathfinding
         private bool gameHasStarted = false;
 
         private float spawnTimer = 0;
-        private float spawnInterval = 10.0f;
+        private float spawnInterval = 2.0f;
         private float tileTimer = 0f;
         private float tileInterval = 0.5f;
 
+        float deltaTime = 0.0f;
+
         public GameObject enemy;
+        public GameObject menuSong;
+        public GameObject roundSong;
         bool newEnemy = true;
 
         void Start()
@@ -44,6 +48,31 @@ namespace FlowPathfinding
                     selectedUnits[2].Add(child.GetComponent<Seeker>());
             }
 
+            StartGame();
+        }
+
+        void OnGUI()
+        {
+            int w = Screen.width, h = Screen.height;
+
+            GUIStyle style = new GUIStyle();
+
+            Rect rect = new Rect(0, 0, w, h * 2 / 100);
+            style.alignment = TextAnchor.UpperLeft;
+            style.fontSize = h * 2 / 100;
+            style.normal.textColor = new Color (0.0f, 0.0f, 0.5f, 1.0f);
+            float msec = deltaTime * 1000.0f;
+            float fps = 1.0f / deltaTime;
+            string text = string.Format("{0:0.0} ms ({1:0.} fps)", msec, fps);
+            GUI.Label(rect, text, style);
+        }
+
+        public void StartGame()
+        {
+            menuSong.SetActive(false);
+            roundSong.SetActive(true);
+            gameHasStarted = true;
+
             for (int i = 0; i < 1; i++)
             {
                 Spawn();
@@ -52,6 +81,8 @@ namespace FlowPathfinding
 
         void Update()
         {
+            deltaTime += (Time.deltaTime - deltaTime) * 0.1f;
+
             if (gameHasStarted)
                 Inputs();
             else
@@ -83,7 +114,6 @@ namespace FlowPathfinding
                 selectedUnits[1].Remove(go.GetComponent<Seeker>());
             else
                 selectedUnits[2].Remove(go.GetComponent<Seeker>());
-            Debug.Log(go.transform.name);
             go.transform.parent = null;
             go.GetComponent<Unit>().enabled = false;
             go.GetComponent<CharacterController>().enabled = false;
@@ -107,7 +137,6 @@ namespace FlowPathfinding
                 selectedUnits[1].Add(go.GetComponent<Seeker>());
             else
                 selectedUnits[2].Add(go.GetComponent<Seeker>());
-
 
         }
 

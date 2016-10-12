@@ -66,7 +66,6 @@ namespace FlowPathfinding
             GenerateWorld(true, true);
             //GenerateWorldManualExample();
             player = GameObject.FindGameObjectWithTag("Player");
-            Debug.Log(player.transform.name);
             seekerManager = GetComponent<SeekerMovementManager>();
             seekerManager.Setup(this, worldData); 
 
@@ -158,19 +157,19 @@ namespace FlowPathfinding
         }
 
 
-
-
-
         public Vector3 GetMousePosition()
         {
             int layer = (1 << groundLayer);
 
-            //Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
             Ray ray = Camera.main.ScreenPointToRay(player.transform.position);
             RaycastHit hit;
 
             if (Physics.Raycast(ray, out hit, 10000f, layer))
+            {
                 return hit.point;
+            }
+
+            Debug.Log("failed to get player position");
 
             return new Vector3(0, invalidYValue, 0);
         }

@@ -5,7 +5,6 @@
 using UnityEngine;
 using System.Collections.Generic;
 using System.IO;
-using UnityEditor;
 
 
 #if !PRE_UNITY_5_3
