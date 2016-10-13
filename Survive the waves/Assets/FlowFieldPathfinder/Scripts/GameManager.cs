@@ -137,6 +137,19 @@ namespace FlowPathfinding
             ResetUnits();
         }
 
+        public void CompletelyRemove(GameObject go)
+        {
+            selectedUnits[0].Remove(go.GetComponent<Seeker>());
+            if (newEnemy)
+                selectedUnits[1].Remove(go.GetComponent<Seeker>());
+            else
+                selectedUnits[2].Remove(go.GetComponent<Seeker>());
+
+            SeekerMovementManager.move.allSeekers.Remove(go.GetComponent<Seeker>());
+            Destroy(go);
+            ResetUnits();
+        }
+
         private void Spawn()
         {
             GameObject go = Instantiate(enemy);

@@ -19,7 +19,7 @@ namespace FlowPathfinding
 
         private GameObject flowFieldHolder;
         private GameObject integrationFieldHolder;
-        private GameObject player;
+        public GameObject player;
 
         public bool worldIsMultiLayered = false;
         public Vector3 worldStart;
@@ -65,7 +65,6 @@ namespace FlowPathfinding
         {
             GenerateWorld(true, true);
             //GenerateWorldManualExample();
-            player = GameObject.FindGameObjectWithTag("Player");
             seekerManager = GetComponent<SeekerMovementManager>();
             seekerManager.Setup(this, worldData); 
 
@@ -85,6 +84,7 @@ namespace FlowPathfinding
 
         public void GenerateWorld(bool GenerateWhileInPlayMode, bool LoadCostField)
         {
+            Debug.Log("asdasd");
             if (GenerateWhileInPlayMode)
             {
                 GetComponent<SaveLoad>().LoadLevel();
@@ -159,19 +159,22 @@ namespace FlowPathfinding
 
         public Vector3 GetMousePosition()
         {
-            int layer = (1 << groundLayer);
+//            if(player == null)
+//                player = GameObject.FindGameObjectWithTag("Player");
+//            
+//            int layer = (1 << groundLayer);
+//
+//            Ray ray = Camera.main.ScreenPointToRay(player.transform.position);
+//            RaycastHit hit;
+//
+//            if (Physics.Raycast(ray, out hit, 10000f, layer))
+//            {
+//                return hit.point;
+//            }
+//
+//            Debug.Log("failed to get player position");
 
-            Ray ray = Camera.main.ScreenPointToRay(player.transform.position);
-            RaycastHit hit;
-
-            if (Physics.Raycast(ray, out hit, 10000f, layer))
-            {
-                return hit.point;
-            }
-
-            Debug.Log("failed to get player position");
-
-            return new Vector3(0, invalidYValue, 0);
+            return new Vector3(2, 0, -34);
         }
 
 
