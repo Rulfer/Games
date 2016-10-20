@@ -149,6 +149,17 @@ public class Weapon : MonoBehaviour {
 		fireMode = mode;
 	}
 
+
+//    RaycastHit info;
+//    Physics.Raycast(new Ray(Camera.main.transform.position, Camera.main.transform.forward), out info);
+//    if (info.collider)
+//    {
+//        line.SetPosition(1, info.point);
+//        if (info.collider.gameObject.GetComponent<PhysicsBodyPart>() != null)
+//            info.collider.gameObject.GetComponent<PhysicsBodyPart>().ApplyForce(Camera.main.transform.forward * 10.0f,
+//                info.point);
+//    }
+
     void fireBullet(SteamVR_Controller.Device device)
     {
         if (Time.time - nextFire > fireRate)
@@ -157,6 +168,10 @@ public class Weapon : MonoBehaviour {
             RaycastHit hit;
             if (Physics.Raycast(muzzle.transform.position, (muzzleDirection.position - muzzle.position).normalized, out hit, range))
             {
+                if (hit.collider.gameObject.GetComponent<PhysicsBodyPart>() != null)
+                {
+                    hit.collider.gameObject.GetComponent<PhysicsBodyPart>().ApplyForce((muzzleDirection.position - muzzle.position).normalized * 10, hit.point);
+                }
                 if (hit.transform.tag == "Head")
                 {
                     hit.transform.gameObject.GetComponent<RemoveBodyparts>().myParent.transform.GetComponent<EnemyStats>().health = 0;
